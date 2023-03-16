@@ -3,10 +3,13 @@ import React, { useRef, useEffect } from "react";
 // import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import * as dat from "dat.gui";
+// import * as dat from "dat.gui";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
-const MainScene = () => {
+const MainScene = (props) => {
+  // useEffect(() => {
+
+  // },[props.noOfUsers])
   useEffect(() => {
     /**
      * Loaders
@@ -18,7 +21,7 @@ const MainScene = () => {
      * Base
      */
     // Debug
-    const gui = new dat.GUI();
+    // const gui = new dat.GUI();
     const debugObject = {};
 
     // Canvas
@@ -63,12 +66,12 @@ const MainScene = () => {
     scene.environment = environmentMap;
 
     debugObject.envMapIntensity = 5;
-    gui
-      .add(debugObject, "envMapIntensity")
-      .min(0)
-      .max(10)
-      .step(0.001)
-      .onChange(updateAllMaterials);
+    // gui
+    //   .add(debugObject, "envMapIntensity")
+    //   .min(0)
+    //   .max(10)
+    //   .step(0.001)
+    //   .onChange(updateAllMaterials);
 
     /**
      * Models
@@ -85,6 +88,22 @@ const MainScene = () => {
       gltf.scene.position.set(0, -1, 0);
       scene.add(gltf.scene);
 
+      gltfLoader.load("/models/man.glb", (gltf) => {
+        gltf.scene.scale.set(-1, 1, 1);
+        gltf.scene.position.set(0, 0, -1.5);
+        scene.add(gltf.scene);
+      });
+
+      console.log("No uf users **** ", props.noOfUsers?.length);
+
+      if (props.noOfUsers?.length > 0) {
+        gltfLoader.load("/models/man.glb", (gltf) => {
+          gltf.scene.scale.set(-1, 1, 1);
+          gltf.scene.position.set(-5, -1, -0.8);
+          scene.add(gltf.scene);
+        });
+      }
+
       updateAllMaterials();
     });
 
@@ -99,30 +118,30 @@ const MainScene = () => {
     directionalLight.position.set(0.25, 3, -2.25);
     scene.add(directionalLight);
 
-    gui
-      .add(directionalLight, "intensity")
-      .min(0)
-      .max(10)
-      .step(0.001)
-      .name("lightIntensity");
-    gui
-      .add(directionalLight.position, "x")
-      .min(-5)
-      .max(5)
-      .step(0.001)
-      .name("lightX");
-    gui
-      .add(directionalLight.position, "y")
-      .min(-5)
-      .max(5)
-      .step(0.001)
-      .name("lightY");
-    gui
-      .add(directionalLight.position, "z")
-      .min(-5)
-      .max(5)
-      .step(0.001)
-      .name("lightZ");
+    // gui
+    //   .add(directionalLight, "intensity")
+    //   .min(0)
+    //   .max(10)
+    //   .step(0.001)
+    //   .name("lightIntensity");
+    // gui
+    //   .add(directionalLight.position, "x")
+    //   .min(-5)
+    //   .max(5)
+    //   .step(0.001)
+    //   .name("lightX");
+    // gui
+    //   .add(directionalLight.position, "y")
+    //   .min(-5)
+    //   .max(5)
+    //   .step(0.001)
+    //   .name("lightY");
+    // gui
+    //   .add(directionalLight.position, "z")
+    //   .min(-5)
+    //   .max(5)
+    //   .step(0.001)
+    //   .name("lightZ");
 
     /**
      * Sizes
@@ -179,19 +198,19 @@ const MainScene = () => {
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    gui
-      .add(renderer, "toneMapping", {
-        No: THREE.NoToneMapping,
-        Linear: THREE.LinearToneMapping,
-        Reinhard: THREE.ReinhardToneMapping,
-        Cineon: THREE.CineonToneMapping,
-        ACESFilmic: THREE.ACESFilmicToneMapping,
-      })
-      .onFinishChange(() => {
-        renderer.toneMapping = Number(renderer.toneMapping);
-        updateAllMaterials();
-      });
-    gui.add(renderer, "toneMappingExposure").min(0).max(10).step(0.001);
+    // gui
+    //   .add(renderer, "toneMapping", {
+    //     No: THREE.NoToneMapping,
+    //     Linear: THREE.LinearToneMapping,
+    //     Reinhard: THREE.ReinhardToneMapping,
+    //     Cineon: THREE.CineonToneMapping,
+    //     ACESFilmic: THREE.ACESFilmicToneMapping,
+    //   })
+    //   .onFinishChange(() => {
+    //     renderer.toneMapping = Number(renderer.toneMapping);
+    //     updateAllMaterials();
+    //   });
+    // gui.add(renderer, "toneMappingExposure").min(0).max(10).step(0.001);
 
     /**
      * Animate
@@ -208,7 +227,7 @@ const MainScene = () => {
     };
 
     tick();
-  }, []);
+  }, [props.noOfUsers]);
 
   return (
     <>

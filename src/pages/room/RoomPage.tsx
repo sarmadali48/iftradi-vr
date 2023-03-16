@@ -66,10 +66,10 @@ const RoomPage: FC<Props> = ({ roomId, displayName, isSimulcastOn, manualMode, a
     peerApi,
     false
   );
-
+  // console.log("Here are the peers .... ", peerState.remote)
   return (
     <>
-    <MainScene />
+    <MainScene noOfUsers={peerState.remote}/>
    
     <section>
       <div className="flex flex-col h-screen relative">
@@ -88,11 +88,13 @@ const RoomPage: FC<Props> = ({ roomId, displayName, isSimulcastOn, manualMode, a
               <h2 className="text-2xl md:text-4xl text-center font-bold text-white">Membrane WebRTC video room demo</h2>
             </div>
             <h3 className="text-2xl font-semibold text-white mb-2">Room {roomId}</h3>
+            
             <h3 className="text-xl font-medium text-white">
               Participants{" "}
               <span>
                 {peerMetadata.emoji} {peerMetadata.displayName}
               </span>
+              
               {peerState.remote.map((peer: RemotePeer) => (
                 <span key={peer.id} title={peer.id}>
                   {peer.emoji} {peer.displayName}
