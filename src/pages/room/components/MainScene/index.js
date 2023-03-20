@@ -51,19 +51,19 @@ const MainScene = (props) => {
     /**
      * Environment map
      */
-    const environmentMap = cubeTextureLoader.load([
-      "/textures/environmentMaps/1/px.jpg",
-      "/textures/environmentMaps/1/nx.jpg",
-      "/textures/environmentMaps/1/py.jpg",
-      "/textures/environmentMaps/1/ny.jpg",
-      "/textures/environmentMaps/1/pz.jpg",
-      "/textures/environmentMaps/1/nz.jpg",
-    ]);
+    // const environmentMap = cubeTextureLoader.load([
+    //   "/textures/environmentMaps/1/px.jpg",
+    //   "/textures/environmentMaps/1/nx.jpg",
+    //   "/textures/environmentMaps/1/py.jpg",
+    //   "/textures/environmentMaps/1/ny.jpg",
+    //   "/textures/environmentMaps/1/pz.jpg",
+    //   "/textures/environmentMaps/1/nz.jpg",
+    // ]);
 
-    environmentMap.encoding = THREE.sRGBEncoding;
+    // environmentMap.encoding = THREE.sRGBEncoding;
 
-    scene.background = environmentMap;
-    scene.environment = environmentMap;
+    // scene.background = environmentMap;
+    // scene.environment = environmentMap;
 
     debugObject.envMapIntensity = 5;
     // gui
@@ -89,20 +89,20 @@ const MainScene = (props) => {
       scene.add(gltf.scene);
 
       gltfLoader.load("/models/man.glb", (gltf) => {
-        gltf.scene.scale.set(-1, 1, 1);
+        gltf.scene.scale.set(-0.5, 0.5, 1);
         gltf.scene.position.set(0, 0, -1.5);
         scene.add(gltf.scene);
       });
 
-      console.log("No uf users **** ", props.noOfUsers?.length);
+      // console.log("No uf users **** ", props.noOfUsers?.length);
 
-      if (props.noOfUsers?.length > 0) {
-        gltfLoader.load("/models/man.glb", (gltf) => {
-          gltf.scene.scale.set(-1, 1, 1);
-          gltf.scene.position.set(-5, -1, -0.8);
-          scene.add(gltf.scene);
-        });
-      }
+      // if (props.noOfUsers?.length > 0) {
+      //   gltfLoader.load("/models/man.glb", (gltf) => {
+      //     gltf.scene.scale.set(-1, 1, 1);
+      //     gltf.scene.position.set(-5, -1, -0.8);
+      //     scene.add(gltf.scene);
+      //   });
+      // }
 
       updateAllMaterials();
     });
@@ -117,6 +117,9 @@ const MainScene = (props) => {
     directionalLight.shadow.normalBias = 0.05;
     directionalLight.position.set(0.25, 3, -2.25);
     scene.add(directionalLight);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2); 
+    scene.add(ambientLight);
 
     // gui
     //   .add(directionalLight, "intensity")
@@ -180,7 +183,10 @@ const MainScene = (props) => {
 
     // Controls
     const controls = new OrbitControls(camera, canvas);
-    controls.enableDamping = true;
+    // controls.enableDamping = true;
+
+    controls.minPolarAngle = Math.PI/4;
+    controls.maxPolarAngle = Math.PI/3;
 
     /**
      * Renderer
